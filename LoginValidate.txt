@@ -1,0 +1,76 @@
+======OBJECT = LoginValidate.txt === Login Validate=====
+
+============   RULES   ==============================================
+parm(
+	in:&UserLogin, 
+	in:&Password, 
+	out:&ApiMessages, out:&ApiResult);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+*   ApiMessages                    GX_SDT                                                        Api Messages                  
+    ApiResult                      CHARACTER(4)                   APIResult, Core                Api Result                    
+*   message                        GX_SDT                                                        message                       
+*   Password                       CHARACTER(100)                                                Password                      
+    StoredUserPassword             CHARACTER(255)                 Attribute:UserPassword         User Password                 
+    UserFoundFlag                  Boolean                        Flag, Core                     User Found Flag               
+    UserIsActiveFlag               Boolean                        Flag, Core                     User Is Active Flag           
+    UserLogin                      CHARACTER(50)                  Attribute:UserLogin            User Login                    
+    UserPassword                   CHARACTER(255)                 Attribute:UserPassword         User Password                 
+*   EncryptionKey                  CHARACTER(255)                                                Encryption Key                
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   20        
+COMMENTS %    :   0         
+MAX BLOCK     :   20        
+COMPLEXITY    :   2         
+MAX NEST LEVEL:   2         
+
+============   PROCEDURE SOURCE   ==============================================
+
+//Initialize Output
+&ApiMessages = new()
+&ApiResult.SetEmpty()
+
+UserDB_GetLoginData(&UserLogin, &StoredUserPassword, 
+			&UserIsActiveFlag, &UserFoundFlag)
+
+if &UserFoundFlag 
+	
+	&EncryptionKey 	= GetKBEncryptionKey()
+	&UserPassword 	= Encrypt64(&Password, &EncryptionKey)
+	
+	if &UserPassword = &StoredUserPassword 
+		&ApiResult = APIResult.Ok
+	else
+		&ApiResult = APIResult.Fail
+		&message.Description = "Invalid password"
+		&ApiMessages.Add(&message)
+	endif
+	
+else
+	&ApiResult = APIResult.Exception
+	&message.Description = "User does not exist"
+	&ApiMessages.Add(&message)
+endif
+
+
+
+
+
+
+
+
+
+============   PROPERTIES   ==============================================
+Name -> LoginValidate
+Description -> Login Validate
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

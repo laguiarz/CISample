@@ -1,0 +1,71 @@
+======OBJECT = UserDB_GetLoginData.txt === User DB_Get Login Data=====
+
+============   RULES   ==============================================
+parm(in:&UserLogin, 
+	out:&UserPassword,
+	out:&UserIsActiveFlag,
+	out:&UserFoundFlag);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+    UserLogin                      CHARACTER(50)                  Attribute:UserLogin            User Login                    
+@   DBUserPassword                 CHARACTER(255)                 Attribute:UserPassword         User Password                 
+!   UserPassword                   CHARACTER(255)                 Attribute:UserPassword         User Password                 
+    UserFoundFlag                  Boolean                        Flag, Core                     User Found Flag               
+    UserIsActiveFlag               Boolean                        Flag, Core                     User Is Active Flag           
+*   EncryptionKey                  VARCHAR(50)                                                   Encryption Key                
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+-Sign @ indicates variables not used in the code
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   27        
+COMMENTS %    :   0         
+MAX BLOCK     :   13        
+COMPLEXITY    :   3         
+MAX NEST LEVEL:   2         
+
+============   PROCEDURE SOURCE   ==============================================
+
+if TestModeOn()
+	do 'ReturnTestData'
+else
+	do 'ReturnDBData'
+endif
+			
+Sub 'ReturnTestData'
+	do case
+		case &UserLogin = 'ADMIN' 
+			&EncryptionKey 	= GetKBEncryptionKey()
+			&UserPassword = Encrypt64('123', &EncryptionKey) 
+			&UserIsActiveFlag = true
+			&UserFoundFlag = true
+		otherwise
+			&UserPassword = nullvalue(&UserPassword)
+			&UserFoundFlag = false
+	endcase
+EndSub
+
+Sub 'ReturnDBData'
+	for each
+		where UserLogin = &UserLogin
+		&UserPassword = UserPassword
+		&UserIsActiveFlag = UserActiveFlag
+		&UserFoundFlag = true
+	when none
+		&UserFoundFlag = false
+	endfor
+
+EndSub
+
+
+============   PROPERTIES   ==============================================
+Name -> UserDB_GetLoginData
+Description -> User DB_Get Login Data
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

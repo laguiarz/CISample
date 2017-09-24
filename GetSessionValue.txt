@@ -1,0 +1,71 @@
+======OBJECT = GetSessionValue.txt === Get Session Value=====
+
+============   RULES   ==============================================
+parm(in:&Key, out:&Value);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+    EnvironmentName                VARCHAR(100)                   Name, Core                     Environment Name              
+    Key                            VARCHAR(255.50)                CoreSessionKey, Core           Key                           
+    Value                          LONGVARCHAR(2097152)           CoreSessionValue, Core         Value                         
+    WebSession                     WebSession                                                    Web Session                   
+!@  GXCoreSession                  GX_EXTERNAL_OBJECT(4)                                         GXCore Session                
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+-Sign @ indicates variables not used in the code
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   28        
+COMMENTS %    :   3         
+MAX BLOCK     :   27        
+COMPLEXITY    :   0         
+MAX NEST LEVEL:   0         
+
+============   PROCEDURE SOURCE   ==============================================
+/*
+*/
+
+&EnvironmentName = GetRunningEnvironment()
+
+
+
+//do case 
+//	case &EnvironmentName = 'WEB'
+		
+		&Value = &WebSession.Get(&Key)
+//		
+//	case &EnvironmentName = 'JAVA'
+//		
+//		// We don't have session, we use the GxCoreSession for java
+//		java 	GxCoreSession Session = GxCoreSession.getInstance();
+//		java 	[!&value!] = Session.getValue([!&key!]);
+//
+//	case &EnvironmentName = 'DOTNET'
+//		
+//		&Value = &GXCoreSession.Instance.GetValue(&Key)
+////		csharp GxCoreSession.GxCoreSession Session = GxCoreSession.GxCoreSession.GetInstance();
+////		csharp [!&value!] = Session.getValue([!&key!]);
+//
+//	otherwise
+//		//we are in RGP or some other language
+//		//in here we don't have a session
+//		//or a class that allows us to set global variables
+//		//we have no choice but to read the database
+//		
+//		
+//		
+//endcase
+
+		
+
+
+============   PROPERTIES   ==============================================
+Name -> GetSessionValue
+Description -> Get Session Value
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

@@ -1,0 +1,36 @@
+======OBJECT = TestModeOn.txt === Test Mode On=====
+
+============   RULES   ==============================================
+parm(out:&ReturnFlag);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+    ReturnFlag                     Boolean                        Flag, Core                     Return Flag                   
+    SessionValue                   LONGVARCHAR(2097152)           CoreSessionValue, Core         Session Value                 
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   6         
+COMMENTS %    :   0         
+MAX BLOCK     :   6         
+COMPLEXITY    :   1         
+MAX NEST LEVEL:   1         
+
+============   PROCEDURE SOURCE   ==============================================
+&SessionValue = GetSessionValue('TestMode')
+
+if &SessionValue = 'ON'
+	&ReturnFlag = true
+else
+	&ReturnFlag = false
+endif
+
+
+
+============   PROPERTIES   ==============================================
+Name -> TestModeOn
+Description -> Test Mode On
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

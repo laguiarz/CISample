@@ -1,0 +1,54 @@
+======OBJECT = GXUnit_AssertNumericEquals.txt === GXUnit_Assert Numeric Equals=====
+
+============   RULES   ==============================================
+Parm(in:&VariableName, in:&ObtainedValue, in:&ExpectedValue);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+*   VariableName                   VARCHAR(80)                                                   Variable Name                 
+*   SessionValue                   VARCHAR(9999)                                                 Session Value                 
+*   SDTAssert                      GX_SDT                                                        SDTAssert                     
+*   GXUnitTestCase                 GX_SDT                                                        GXUnit Test Case              
+*   ExpectedValue                  NUMERIC(18.4)                                                 Expected Value                
+*   ObtainedValue                  NUMERIC(18.4)                                                 Obtained Value                
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   14        
+COMMENTS %    :   21        
+MAX BLOCK     :   11        
+COMPLEXITY    :   0         
+MAX NEST LEVEL:   0         
+
+============   PROCEDURE SOURCE   ==============================================
+/*
+Compares obtained and expected results
+
+Created Automatically by GXUnit
+*/
+&SDTAssert = new()
+&SDTAssert.Variable = &VariableName
+&SDTAssert.Expected = trim(&ExpectedValue.ToString())
+&SDTAssert.Obtained = trim(&ObtainedValue.ToString())
+&SDTAssert.Result   = iif(&ExpectedValue = &ObtainedValue,'OK','FAIL')
+
+//Retrieve the Current-Test Information
+GXUnit_GetSession('CurrentTest', &SessionValue)
+&GXUnitTestCase.FromXml(&SessionValue)
+
+&GXUnitTestCase.Asserts.Add(&SDTAssert)
+GXUnit_SetSession('CurrentTest', &GXUnitTestCase.ToXml() )
+
+
+
+============   PROPERTIES   ==============================================
+Name -> GXUnit_AssertNumericEquals
+Description -> GXUnit_Assert Numeric Equals
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

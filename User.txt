@@ -1,0 +1,32 @@
+======OBJECT = User.txt === User=====
+
+============   RULES   ==============================================
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   0         
+COMMENTS %    :   0         
+MAX BLOCK     :   0         
+COMPLEXITY    :   0         
+MAX NEST LEVEL:   0         
+
+============   EVENTS SOURCE   ==============================================
+
+
+============   STRUCTURE   ==============================================
+UserLogin*
+UserPassword
+UserActiveFlag
+UserLastLoginTimestamp
+
+
+============   PROPERTIES   ==============================================
+Name -> User
+Description -> User
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False
