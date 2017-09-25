@@ -1,0 +1,45 @@
+======OBJECT = Login.txt === Login=====
+
+============   RULES   ==============================================
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+*   UserName                       CHARACTER(50)                                                 User Name                     
+*   Password                       CHARACTER(100)                                                Password                      
+!   ApiResult                      CHARACTER(4)                   APIResult, Core                Api Result                    
+*   ApiMessages                    GX_SDT                                                        Api Messages                  
+*   message                        GX_SDT                                                        message                       
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   10        
+COMMENTS %    :   0         
+MAX BLOCK     :   10        
+COMPLEXITY    :   2         
+MAX NEST LEVEL:   2         
+
+============   EVENTS SOURCE   ==============================================
+
+Event Enter
+	LoginValidate(&UserName, &Password, &ApiMessages, &ApiResult)
+	
+	if &ApiResult = APIResult.Ok
+		msg('Succesful login')
+	else
+		for &message in &apiMessages
+			msg(&message.Description)
+		endfor
+	endif
+	
+Endevent
+
+
+============   PROPERTIES   ==============================================
+Name -> Login
+Description -> Login
+GenerateObject -> True
+IsDefault -> False

@@ -1,0 +1,78 @@
+======OBJECT = SetSessionValue.txt === Set Session Value=====
+
+============   RULES   ==============================================
+parm(in:&Key, in:&Value);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+    WebSession                     WebSession                                                    Web Session                   
+@   InCSharpFlagChar               CHARACTER(1)                   FlagChar, Core                 In CSharp Flag Char           
+@   InJavaFlagChar                 CHARACTER(1)                   FlagChar, Core                 In Java Flag Char             
+@   InWebFlagChar                  CHARACTER(1)                   FlagChar, Core                 In Web Flag Char              
+    Key                            VARCHAR(255.50)                CoreSessionKey, Core           Key                           
+    Value                          LONGVARCHAR(2097152)           CoreSessionValue, Core         Value                         
+    EnvironmentName                VARCHAR(100)                   Name, Core                     Environment Name              
+*@  GxCoreSession                  GX_EXTERNAL_OBJECT(4)                                         Gx Core Session               
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+-Sign @ indicates variables not used in the code
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   31        
+COMMENTS %    :   6         
+MAX BLOCK     :   29        
+COMPLEXITY    :   0         
+MAX NEST LEVEL:   0         
+
+============   PROCEDURE SOURCE   ==============================================
+/*
+Sets a value in the session - which works for web and also standalone
+
+*/
+
+&EnvironmentName = GetRunningEnvironment()
+
+//
+//do case 
+//	case &EnvironmentName = 'WEB'
+
+		&WebSession.Set(&Key, &Value.Trim())
+//		
+//	case &EnvironmentName = 'JAVA'
+//		
+//		// We don't have web-session, we use the GxCoreSession for java
+//		java 	GxCoreSession Session = GxCoreSession.getInstance();
+//		java 	Session.addValue([!&Key!], [!&Value!]);
+//
+//	case &EnvironmentName = 'DOTNET'
+//	
+//// 		We don't have web-session, we use the GxCoreSession for csharp
+////		csharp GxCoreSession.GxCoreSession Session = GxCoreSession.GxCoreSession.GetInstance();
+////		csharp Session.addValue([!&key!], [!&value!]);
+//
+//		//&GxCoreSession = &GxCoreSession.Instance
+//		&GxCoreSession.Instance.AddValue(&Key, &Value)
+//		
+//	otherwise
+//		//we are in RGP or some other language
+//		//in here we don't have a session
+//		//or a class that allows us to set global variables
+//		//we have no choice but to read the database
+//		
+//endcase
+
+
+
+
+
+
+============   PROPERTIES   ==============================================
+Name -> SetSessionValue
+Description -> Set Session Value
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

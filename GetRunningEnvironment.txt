@@ -1,0 +1,70 @@
+======OBJECT = GetRunningEnvironment.txt === Get Running Environment=====
+
+============   RULES   ==============================================
+parm(out:&EnvironmentName);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+    EnvironmentName                VARCHAR(100)                   Name, Core                     Environment Name              
+    InCSharpFlagChar               CHARACTER(1)                   FlagChar, Core                 In CSharp Flag Char           
+    InJavaFlagChar                 CHARACTER(1)                   FlagChar, Core                 In Java Flag Char             
+    InWebFlagChar                  CHARACTER(1)                   FlagChar, Core                 In Web Flag Char              
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   29        
+COMMENTS %    :   0         
+MAX BLOCK     :   29        
+COMPLEXITY    :   3         
+MAX NEST LEVEL:   2         
+
+============   PROCEDURE SOURCE   ==============================================
+
+&InJavaFlagChar = 'N'
+&InWebFlagChar = 'N'
+&InCSharpFlagChar = 'N'
+
+java [!&InJavaFlagChar!]="Y";
+
+if &InJavaFlagChar = "Y"
+
+	java if(context.getHttpContext() instanceof com.genexus.webpanels.HttpContextWeb)
+	java {
+	java [!&InWebFlagChar!] = "Y";		
+	java }
+		
+else
+	
+	csharp [!&InCSharpFlagChar!] = "Y";
+	
+	if &InCSharpFlagChar ='Y'
+		//check if in web
+		csharp if (System.Web.HttpContext.Current!=null)
+		csharp {
+		csharp [!&InWebFlagChar!] = "Y";
+		csharp }
+	endif
+
+endif
+
+do case
+	case &InJavaFlagChar = 'Y' and &InWebFlagChar = 'Y'
+		&EnvironmentName='WEB'
+	case &InJavaFlagChar = 'Y' and &InWebFlagChar = 'N'
+		&EnvironmentName='JAVA'
+	case &InCSharpFlagChar = 'Y' and &InWebFlagChar = 'N'
+		&EnvironmentName='DOTNET'
+	otherwise
+		&EnvironmentName = 'OTHER'
+endcase
+
+	
+
+
+============   PROPERTIES   ==============================================
+Name -> GetRunningEnvironment
+Description -> Get Running Environment
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False

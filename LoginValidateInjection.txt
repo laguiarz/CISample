@@ -1,0 +1,75 @@
+======OBJECT = LoginValidateInjection.txt === Login Validate Injection=====
+
+============   RULES   ==============================================
+parm(
+	in:&UserName, 
+	in:&Password, 
+	in:&PasswordValidatorProc,
+	out:&ApiMessages, out:&ApiResult);
+
+
+============   VARIABLE DEFINITION   ==============================================
+    Name                           Type                           Based on                       Desc                          
+!   ApiMessages                    GX_SDT                                                        Api Messages                  
+    ApiResult                      CHARACTER(4)                   APIResult, Core                Api Result                    
+*   UserName                       CHARACTER(50)                                                 User Name                     
+*   Password                       CHARACTER(100)                                                Password                      
+*   message                        GX_SDT                                                        message                       
+*@  PasswordValidator              NUMERIC(4)                                                    Password Validator            
+*   PasswordValidatorProc          CHARACTER(255)                                                Password Validator Proc       
+!   UserLogin                      CHARACTER(50)                  Attribute:UserLogin            User Login                    
+*   MatchFlag                      Boolean                                                       Match Flag                    
+
+--> ATTENTION REVIEWER:
+-Sign ! indicates Autodefined variables
+-Sign * indicates variables poorly defined
+-Sign @ indicates variables not used in the code
+
+============   QUALITIY INDICATORS   ==============================================
+LINES of Code :   21        
+COMMENTS %    :   14        
+MAX BLOCK     :   18        
+COMPLEXITY    :   2         
+MAX NEST LEVEL:   2         
+
+============   PROCEDURE SOURCE   ==============================================
+/*
+Validate Login
+
+2016-12-28	LAZ	Created
+*/
+
+
+//Initialize Output
+&ApiMessages = new()
+&ApiResult.SetEmpty()
+
+if not &PasswordValidatorProc.IsEmpty()
+	call(&PasswordValidatorProc, &UserLogin, &Password, &MatchFlag)
+	
+	if &MatchFlag 
+		&ApiResult = APIResult.Ok
+	else
+		&ApiResult = APIResult.Fail
+		&message.Description = "Invalid user or password"
+		&ApiMessages.Add(&message)
+	endif
+	
+else
+	&ApiResult = APIResult.Exception
+	&message.Description = "Invalid Validator"
+	&ApiMessages.Add(&message)
+endif
+
+
+
+
+
+
+============   PROPERTIES   ==============================================
+Name -> LoginValidateInjection
+Description -> Login Validate Injection
+CommitOnExit -> Yes
+TRNCMT -> YES
+GenerateObject -> True
+IsDefault -> False
