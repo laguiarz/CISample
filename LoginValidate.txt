@@ -19,6 +19,7 @@ parm(
     UserLogin                      CHARACTER(50)                  Attribute:UserLogin            User Login                    
     UserPassword                   CHARACTER(255)                 Attribute:UserPassword         User Password                 
 *   EncryptionKey                  CHARACTER(255)                                                Encryption Key                
+!   EncryptedUserPassword          CHARACTER(255)                 Attribute:UserPassword         User Password                 
 
 --> ATTENTION REVIEWER:
 -Sign ! indicates Autodefined variables
@@ -42,10 +43,10 @@ UserDB_GetLoginData(&UserLogin, &StoredUserPassword,
 
 if &UserFoundFlag 
 	
-	&EncryptionKey 	= GetKBEncryptionKey()
-	&UserPassword 	= Encrypt64(&Password, &EncryptionKey)
+	&EncryptionKey 			= GetKBEncryptionKey()
+	&EncryptedUserPassword 	= Encrypt64(&Password, &EncryptionKey)
 	
-	if &UserPassword = &StoredUserPassword 
+	if &EncryptedUserPassword = &StoredUserPassword 
 		&ApiResult = APIResult.Ok
 	else
 		&ApiResult = APIResult.Fail
