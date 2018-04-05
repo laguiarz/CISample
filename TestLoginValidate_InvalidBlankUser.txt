@@ -15,14 +15,17 @@
 -Sign * indicates variables poorly defined
 
 ============   QUALITIY INDICATORS   ==============================================
-LINES of Code :   5         
+LINES of Code :   6         
 COMMENTS %    :   0         
-MAX BLOCK     :   5         
+MAX BLOCK     :   6         
 COMPLEXITY    :   0         
 MAX NEST LEVEL:   0         
 
 ============   PROCEDURE SOURCE   ==============================================
 SetTestModeOn()
+
+
+//hello world
 
 &UserLogin = ''
 &UserPassword = ''
